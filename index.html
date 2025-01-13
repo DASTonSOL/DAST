@@ -86,6 +86,21 @@
             text-align: center;
         }
 
+        #leaderboard-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #leaderboard-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #leaderboard-container th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
         @media (max-width: 768px) {
             #game-container {
                 padding: 10px;
@@ -113,30 +128,6 @@
             }
         }
 
-        /* Prevent scrolling in body, only allow scrolling inside the game container */
-        body, html {
-            height: 100%;
-        }
-
-        #game-container {
-            max-height: 100%;
-            overflow-y: auto; /* Allow scrolling inside the game container */
-        }
-
-        #leaderboard-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #leaderboard-container table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #leaderboard-container th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
     </style>
 </head>
 <body>
@@ -171,13 +162,20 @@
         <div id="market">
             <h2>Your total amount of $DAST</h2>
             <p id="money">DAST: 0</p>
-            <button id="sell-all">Sell ​​All</button>
+            <button id="sell-all">Sell All</button>
         </div>
 
         <div id="leaderboard-container">
             <h2>Leaderboard</h2>
             <div id="leaderboard-table"></div>
         </div>
+
+        <div id="player-input">
+            <h3>Yeni Oyuncu Kaydı</h3>
+            <input type="text" id="player-name" placeholder="Oyuncu Adı" />
+            <button id="add-player-button">Oyuncu Ekle</button>
+        </div>
+
     </div>
 
     <script>
@@ -247,120 +245,43 @@
 
             if (dast2Unlocked) {
                 eggButton.disabled = false;
-                eggButton.textContent = 'Airdrop Al';
-            } else {
-                eggButton.disabled = true;
-                eggButton.textContent = 'Locked (2M DAST)';
             }
-
             if (dast3Unlocked) {
                 woolButton.disabled = false;
-                woolButton.textContent = 'Airdrop Al';
-            } else {
-                woolButton.disabled = true;
-                woolButton.textContent = 'Locked (6M DAST)';
-            }
-
-            loadLeaderboard(); // Listeyi her seferinde güncelle
-        }
-
-        function unlockDast2() {
-            const unlockCost = 2000000;
-            if (money >= unlockCost && !dast2Unlocked) {
-                money -= unlockCost;
-                dast2Unlocked = true;
-                saveGameData();
-                updateDisplay();
-                alert('DAST 2 feature successfully unlocked!');
-            } else if (money < unlockCost) {
-                alert('You do not have enough DAST savings!');
             }
         }
 
-        function unlockDast3() {
-            const unlockCost = 6000000;
-            if (money >= unlockCost && !dast3Unlocked) {
-                money -= unlockCost;
-                dast3Unlocked = true;
-                saveGameData();
-                updateDisplay();
-                alert('DAST 3 feature successfully unlocked!');
-            } else if (money < unlockCost) {
-                alert('You do not have enough DAST savings!');
-            }
-        }
-
-        function addPlayer(playerName, dastAmount) {
-            players.push({ name: playerName, dast: dastAmount });
-            localStorage.setItem('players', JSON.stringify(players));
-            loadLeaderboard(); // Listeyi güncelle
-        }
-
-        function loadLeaderboard() {
-            leaderboardContainer.innerHTML = ''; // Eski tabloyu temizle
-
-            const leaderboardTable = document.createElement('table');
-            leaderboardTable.innerHTML = `
-                <thead>
-                    <tr>
-                        <th>Sıra</th>
-                        <th>Oyuncu</th>
-                        <th>DAST</th>
-                    </tr>
-                </thead>
-            `;
-            const tbody = document.createElement('tbody');
-            players.sort((a, b) => b.dast - a.dast).forEach((player, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${player.name}</td>
-                    <td>${player.dast}</td>
-                `;
-                tbody.appendChild(row);
-            });
-            leaderboardTable.appendChild(tbody);
-            leaderboardContainer.appendChild(leaderboardTable);
-        }
-
-        honeyButton.addEventListener('click', () => {
-            honeyAmount += honeyReward;
-            money += honeyReward;
-            saveGameData();
-
-            const currentTime = Date.now();
-            localStorage.setItem('lastHoneyTime', currentTime);
-
-            honeyButton.disabled = true;
-            honeyButton.textContent = `locked (${Math.ceil(honeyCooldown / 60000)} dk remained)`;
-
-            updateDisplay();
-        });
-
+        // Add event listeners for buttons
         milkButton.addEventListener('click', () => {
-            milkAmount++;
+            milkAmount += milkValue;
+            money += milkValue;
             saveGameData();
             updateDisplay();
         });
 
         eggButton.addEventListener('click', () => {
-            if (dast2Unlocked) {
-                eggAmount++;
-                saveGameData();
-                updateDisplay();
-            }
+            eggAmount += eggValue;
+            money += eggValue;
+            saveGameData();
+            updateDisplay();
         });
 
         woolButton.addEventListener('click', () => {
-            if (dast3Unlocked) {
-                woolAmount++;
-                saveGameData();
-                updateDisplay();
-            }
+            woolAmount += woolValue;
+            money += woolValue;
+            saveGameData();
+            updateDisplay();
+        });
+
+        honeyButton.addEventListener('click', () => {
+            honeyAmount += honeyReward;
+            money += honeyReward;
+            localStorage.setItem('lastHoneyTime', Date.now());
+            saveGameData();
+            updateDisplay();
         });
 
         sellAllButton.addEventListener('click', () => {
-            money += (milkAmount * milkValue) + (eggAmount * eggValue) + (woolAmount * woolValue) + (honeyAmount * honeyValue);
             milkAmount = 0;
             eggAmount = 0;
             woolAmount = 0;
@@ -369,10 +290,54 @@
             updateDisplay();
         });
 
-        unlockDast2Button.addEventListener('click', unlockDast2);
-        unlockDast3Button.addEventListener('click', unlockDast3);
+        unlockDast2Button.addEventListener('click', () => {
+            if (money >= 2000000) {
+                dast2Unlocked = true;
+                money -= 2000000;
+                saveGameData();
+                updateDisplay();
+            }
+        });
 
+        unlockDast3Button.addEventListener('click', () => {
+            if (money >= 6000000) {
+                dast3Unlocked = true;
+                money -= 6000000;
+                saveGameData();
+                updateDisplay();
+            }
+        });
+
+        // Add Player Registration (Only once per device)
+        document.getElementById('add-player-button').addEventListener('click', () => {
+            if (localStorage.getItem('playerRegistered')) {
+                alert("Bir oyuncu kaydı zaten yapılmış.");
+                return;
+            }
+
+            const playerName = document.getElementById('player-name').value.trim();
+            if (playerName) {
+                players.push({ name: playerName, money });
+                localStorage.setItem('players', JSON.stringify(players));
+                localStorage.setItem('playerRegistered', 'true'); // Set flag to prevent re-registration
+                document.getElementById('player-name').value = ''; // Clear input
+                displayLeaderboard();
+            }
+        });
+
+        function displayLeaderboard() {
+            const sortedPlayers = players.sort((a, b) => b.money - a.money); // Sort by money
+            let leaderboardHtml = '<table><tr><th>Player</th><th>Money</th></tr>';
+            sortedPlayers.forEach(player => {
+                leaderboardHtml += `<tr><td>${player.name}</td><td>${player.money}</td></tr>`;
+            });
+            leaderboardHtml += '</table>';
+            leaderboardContainer.innerHTML = leaderboardHtml;
+        }
+
+        // Initial Game Load
         loadGameData();
+        displayLeaderboard();
     </script>
 </body>
 </html>
