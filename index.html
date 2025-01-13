@@ -92,33 +92,6 @@
             margin-bottom: 15px;
         }
 
-        .input-group {
-            margin: 15px 0;
-        }
-
-        .input-group input {
-            padding: 10px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            width: 250px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-group button {
-            margin-left: 15px;
-            padding: 12px 20px;
-            background-color: #9b59b6;
-            font-size: 1em;
-            border-radius: 8px;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        .input-group button:hover {
-            background-color: #8e44ad;
-        }
-
         .highlight {
             color: #ff9a8b;
             font-weight: bold;
@@ -136,24 +109,22 @@
         <div id="farm">
             <div id="cow-section" class="animal-section">
                 <h2>🐄 DAST 1</h2>
-                <button id="milk-button">Get Airdrop</button>
+                <button id="milk-button">Get 1 DAST</button>
                 <p id="milk-amount">Miktar: 0</p>
             </div>
             <div id="chicken-section" class="animal-section">
                 <h2>🐔 DAST 2</h2>
-                <button id="egg-button" disabled>Locked (2M DAST)</button>
+                <button id="egg-button" disabled>Locked (5 mins)</button>
                 <p id="egg-amount">Miktar: 0</p>
-                <button id="unlock-dast2" class="highlight">Unlock DAST 2 (2M DAST)</button>
             </div>
             <div id="sheep-section" class="animal-section">
                 <h2>🐑 DAST 3</h2>
-                <button id="wool-button" disabled>Locked (6M DAST)</button>
+                <button id="wool-button" disabled>Locked (15 mins)</button>
                 <p id="wool-amount">Miktar: 0</p>
-                <button id="unlock-dast3" class="highlight">Unlock DAST 3 (6M DAST)</button>
             </div>
             <div id="bee-section" class="animal-section">
                 <h2>🐝 DAST 4</h2>
-                <button id="honey-button" disabled>Locked (3 hours)</button>
+                <button id="honey-button" disabled>Locked (30 mins)</button>
                 <p id="honey-amount">Miktar: 0</p>
             </div>
         </div>
@@ -168,19 +139,15 @@
     <script>
         let milkAmount = 0, eggAmount = 0, woolAmount = 0, honeyAmount = 0;
         let money = 0;
-        let dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true'; // DAST 2 kilit durumu
-        let dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true'; // DAST 3 kilit durumu
-
-        const milkValue = 1, eggValue = 2, woolValue = 3, honeyValue = 4;
-        const honeyReward = 10000; // 10,000 DAST per click for DAST 4
-        const honeyCooldown = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+        const milkValue = 1, eggValue = 3000, woolValue = 10000, honeyReward = 45000;
+        const eggCooldown = 5 * 60 * 1000; // 5 dakika (300,000 ms)
+        const woolCooldown = 15 * 60 * 1000; // 15 dakika (900,000 ms)
+        const honeyCooldown = 30 * 60 * 1000; // 30 dakika (1,800,000 ms)
 
         const milkButton = document.getElementById('milk-button');
         const eggButton = document.getElementById('egg-button');
         const woolButton = document.getElementById('wool-button');
         const honeyButton = document.getElementById('honey-button');
-        const unlockDast2Button = document.getElementById('unlock-dast2');
-        const unlockDast3Button = document.getElementById('unlock-dast3');
         const sellAllButton = document.getElementById('sell-all');
         const moneyDisplay = document.getElementById('money');
 
@@ -190,20 +157,36 @@
             woolAmount = parseInt(localStorage.getItem('woolAmount')) || 0;
             honeyAmount = parseInt(localStorage.getItem('honeyAmount')) || 0;
             money = parseInt(localStorage.getItem('money')) || 0;
-            dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true';
-            dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true';
 
+            const lastEggTime = parseInt(localStorage.getItem('lastEggTime')) || 0;
+            const lastWoolTime = parseInt(localStorage.getItem('lastWoolTime')) || 0;
             const lastHoneyTime = parseInt(localStorage.getItem('lastHoneyTime')) || 0;
-            const currentTime = Date.now();
-            const timeDiff = currentTime - lastHoneyTime;
 
-            if (timeDiff >= honeyCooldown) {
+            // Zaman kontrolü
+            const currentTime = Date.now();
+
+            if (currentTime - lastEggTime >= eggCooldown) {
+                eggButton.disabled = false;
+                eggButton.textContent = 'Get 3000 DAST';
+            } else {
+                eggButton.disabled = true;
+                eggButton.textContent = `Locked (${Math.ceil((eggCooldown - (currentTime - lastEggTime)) / 60000)} mins left)`;
+            }
+
+            if (currentTime - lastWoolTime >= woolCooldown) {
+                woolButton.disabled = false;
+                woolButton.textContent = 'Get 10000 DAST';
+            } else {
+                woolButton.disabled = true;
+                woolButton.textContent = `Locked (${Math.ceil((woolCooldown - (currentTime - lastWoolTime)) / 60000)} mins left)`;
+            }
+
+            if (currentTime - lastHoneyTime >= honeyCooldown) {
                 honeyButton.disabled = false;
-                honeyButton.textContent = 'Complete Mission (10,000 DAST)';
+                honeyButton.textContent = 'Get 45000 DAST';
             } else {
                 honeyButton.disabled = true;
-                const remainingTime = honeyCooldown - timeDiff;
-                honeyButton.textContent = `locked (${Math.ceil(remainingTime / 60000)} dk remained)`;
+                honeyButton.textContent = `Locked (${Math.ceil((honeyCooldown - (currentTime - lastHoneyTime)) / 60000)} mins left)`;
             }
 
             updateDisplay();
@@ -215,8 +198,6 @@
             localStorage.setItem('woolAmount', woolAmount);
             localStorage.setItem('honeyAmount', honeyAmount);
             localStorage.setItem('money', money);
-            localStorage.setItem('dast2Unlocked', dast2Unlocked);
-            localStorage.setItem('dast3Unlocked', dast3Unlocked);
         }
 
         function updateDisplay() {
@@ -225,16 +206,9 @@
             document.getElementById('wool-amount').textContent = `DAST: ${woolAmount}`;
             document.getElementById('honey-amount').textContent = `DAST: ${honeyAmount}`;
             moneyDisplay.textContent = `DAST: ${money}`;
-
-            if (dast2Unlocked) {
-                eggButton.disabled = false;
-            }
-            if (dast3Unlocked) {
-                woolButton.disabled = false;
-            }
         }
 
-        // Add event listeners for buttons
+        // Milk button (1 DAST)
         milkButton.addEventListener('click', () => {
             milkAmount += milkValue;
             money += milkValue;
@@ -242,20 +216,25 @@
             updateDisplay();
         });
 
+        // Egg button (3000 DAST)
         eggButton.addEventListener('click', () => {
             eggAmount += eggValue;
             money += eggValue;
+            localStorage.setItem('lastEggTime', Date.now());
             saveGameData();
             updateDisplay();
         });
 
+        // Wool button (10000 DAST)
         woolButton.addEventListener('click', () => {
             woolAmount += woolValue;
             money += woolValue;
+            localStorage.setItem('lastWoolTime', Date.now());
             saveGameData();
             updateDisplay();
         });
 
+        // Honey button (45000 DAST)
         honeyButton.addEventListener('click', () => {
             honeyAmount += honeyReward;
             money += honeyReward;
@@ -264,6 +243,7 @@
             updateDisplay();
         });
 
+        // Sell all button
         sellAllButton.addEventListener('click', () => {
             milkAmount = 0;
             eggAmount = 0;
@@ -273,26 +253,11 @@
             updateDisplay();
         });
 
-        unlockDast2Button.addEventListener('click', () => {
-            if (money >= 2000000) {
-                dast2Unlocked = true;
-                money -= 2000000;
-                saveGameData();
-                updateDisplay();
-            }
-        });
-
-        unlockDast3Button.addEventListener('click', () => {
-            if (money >= 6000000) {
-                dast3Unlocked = true;
-                money -= 6000000;
-                saveGameData();
-                updateDisplay();
-            }
-        });
-
         // Initial Game Load
         loadGameData();
+
+        // Periodic updates (1 saniyede bir)
+        setInterval(loadGameData, 1000);
     </script>
 </body>
 </html>
