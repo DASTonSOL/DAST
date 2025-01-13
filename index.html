@@ -131,32 +131,32 @@
         <div id="farm">
             <div id="cow-section" class="animal-section">
                 <h2>DAST 1</h2>
-                <button id="milk-button">Airdrop Al</button>
+                <button id="milk-button">Get Airdrop</button>
                 <p id="milk-amount">Miktar: 0</p>
             </div>
             <div id="chicken-section" class="animal-section">
                 <h2>DAST 2</h2>
-                <button id="egg-button" disabled>Kilitli (2M DAST)</button>
+                <button id="egg-button" disabled>Locked (2M DAST)</button>
                 <p id="egg-amount">Miktar: 0</p>
-                <button id="unlock-dast2">DAST 2 Aç (2M DAST)</button>
+                <button id="unlock-dast2">DAST 2 Open (2M DAST)</button>
             </div>
             <div id="sheep-section" class="animal-section">
                 <h2>DAST 3</h2>
-                <button id="wool-button" disabled>Kilitli (6M DAST)</button>
+                <button id="wool-button" disabled>Locked (6M DAST)</button>
                 <p id="wool-amount">Miktar: 0</p>
-                <button id="unlock-dast3">DAST 3 Aç (6M DAST)</button>
+                <button id="unlock-dast3">DAST 3 Open (6M DAST)</button>
             </div>
             <div id="bee-section" class="animal-section">
                 <h2>DAST 4</h2>
-                <button id="honey-button" disabled>Görev (3 Saatte Bir)</button>
+                <button id="honey-button" disabled>Task (Every 3 Hours)</button>
                 <p id="honey-amount">Miktar: 0</p>
             </div>
         </div>
 
         <div id="market">
-            <h2>Toplam DAST</h2>
+            <h2>TYour total amount of $DAST</h2>
             <p id="money">DAST: 0</p>
-            <button id="sell-all">Tümünü Sat</button>
+            <button id="sell-all">Sell ​​All</button>
         </div>
     </div>
 
@@ -167,7 +167,7 @@
         let dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true'; // DAST 3 kilit durumu
 
         const milkValue = 1, eggValue = 2, woolValue = 3, honeyValue = 4;
-        const honeyReward = 10000; // 10,000 DAST per click for DAST 4
+        const honeyReward = 5000; // 10,000 DAST per click for DAST 4
         const honeyCooldown = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
 
         const milkButton = document.getElementById('milk-button');
