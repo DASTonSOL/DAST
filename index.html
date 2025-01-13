@@ -7,97 +7,93 @@
     <style>
         /* Genel stil */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #8e44ad; /* Mor arka plan */
-            color: #fff; /* Yazı rengi beyaz */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(45deg, #ff6ec7, #ff9a8b);
+            color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            text-align: center;
         }
 
         #game-container {
-            background-color: #2c3e50; /* Koyu gri arka plan */
-            border-radius: 10px;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 40px;
             width: 80%;
-            max-width: 900px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 950px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
         }
 
         h1 {
-            text-align: center;
-            color: #f39c12; /* Altın sarısı başlık rengi */
-            font-size: 2.5em;
-        }
-
-        h2, h3 {
-            color: #ecf0f1;
-            text-align: center;
-            font-size: 1.5em;
-            margin-top: 20px;
+            color: #fff;
+            font-size: 3em;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
         }
 
         .animal-section {
             margin: 20px 0;
-            padding: 15px;
-            background-color: #34495e;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .animal-section:hover {
+            transform: scale(1.05);
         }
 
         .animal-section h2 {
-            color: #3498db;
-            font-size: 1.3em;
+            color: #f39c12;
+            font-size: 1.8em;
+            margin-bottom: 10px;
         }
 
         button {
-            background-color: #3498db;
+            background-color: #e74c3c;
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
+            padding: 15px 30px;
+            margin-top: 20px;
             cursor: pointer;
-            border-radius: 5px;
-            font-size: 1em;
-            transition: background-color 0.3s;
+            border-radius: 50px;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         button:hover {
-            background-color: #2980b9;
+            background-color: #c0392b;
+            transform: scale(1.1);
         }
 
         button:disabled {
             background-color: #95a5a6;
             cursor: not-allowed;
+            transform: none;
         }
 
-        #leaderboard-table {
-            width: 100%;
+        #market {
             margin-top: 30px;
-            border-collapse: collapse;
+            padding: 20px;
+            background-color: #34495e;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        #leaderboard-table th, #leaderboard-table td {
-            border: 1px solid #7f8c8d;
-            padding: 12px;
-            text-align: center;
-            color: #ecf0f1;
-        }
-
-        #leaderboard-table th {
-            background-color: #8e44ad;
-        }
-
-        #market, #player-input {
-            margin-top: 20px;
-            text-align: center;
+        #money {
+            font-size: 1.5em;
+            margin-bottom: 15px;
         }
 
         .input-group {
-            margin: 10px 0;
+            margin: 15px 0;
         }
 
         .input-group input {
@@ -105,18 +101,31 @@
             font-size: 1em;
             border: none;
             border-radius: 5px;
-            width: 200px;
+            width: 250px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .input-group button {
-            margin-left: 10px;
-            padding: 10px 20px;
-            font-size: 1em;
+            margin-left: 15px;
+            padding: 12px 20px;
             background-color: #9b59b6;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            transition: background-color 0.3s;
         }
 
         .input-group button:hover {
             background-color: #8e44ad;
+        }
+
+        .highlight {
+            color: #ff9a8b;
+            font-weight: bold;
+        }
+
+        .highlight:hover {
+            color: #f39c12;
         }
     </style>
 </head>
@@ -126,24 +135,24 @@
 
         <div id="farm">
             <div id="cow-section" class="animal-section">
-                <h2>DAST 1</h2>
+                <h2>🐄 DAST 1</h2>
                 <button id="milk-button">Get Airdrop</button>
                 <p id="milk-amount">Miktar: 0</p>
             </div>
             <div id="chicken-section" class="animal-section">
-                <h2>DAST 2</h2>
+                <h2>🐔 DAST 2</h2>
                 <button id="egg-button" disabled>Locked (2M DAST)</button>
                 <p id="egg-amount">Miktar: 0</p>
-                <button id="unlock-dast2">Unlock DAST 2 (2M DAST)</button>
+                <button id="unlock-dast2" class="highlight">Unlock DAST 2 (2M DAST)</button>
             </div>
             <div id="sheep-section" class="animal-section">
-                <h2>DAST 3</h2>
+                <h2>🐑 DAST 3</h2>
                 <button id="wool-button" disabled>Locked (6M DAST)</button>
                 <p id="wool-amount">Miktar: 0</p>
-                <button id="unlock-dast3">Unlock DAST 3 (6M DAST)</button>
+                <button id="unlock-dast3" class="highlight">Unlock DAST 3 (6M DAST)</button>
             </div>
             <div id="bee-section" class="animal-section">
-                <h2>DAST 4</h2>
+                <h2>🐝 DAST 4</h2>
                 <button id="honey-button" disabled>Locked (3 hours)</button>
                 <p id="honey-amount">Miktar: 0</p>
             </div>
@@ -154,19 +163,6 @@
             <p id="money">DAST: 0</p>
             <button id="sell-all">Sell All</button>
         </div>
-
-        <div id="leaderboard-container">
-            <h2>Leaderboard</h2>
-            <div id="leaderboard-table"></div>
-        </div>
-
-        <div id="player-input">
-            <h3>Yeni Oyuncu Kaydı</h3>
-            <div class="input-group">
-                <input type="text" id="player-name" placeholder="Oyuncu Adı" />
-                <button id="add-player-button">Oyuncu Ekle</button>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -174,8 +170,6 @@
         let money = 0;
         let dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true'; // DAST 2 kilit durumu
         let dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true'; // DAST 3 kilit durumu
-
-        let players = JSON.parse(localStorage.getItem('players')) || [];
 
         const milkValue = 1, eggValue = 2, woolValue = 3, honeyValue = 4;
         const honeyReward = 10000; // 10,000 DAST per click for DAST 4
@@ -189,7 +183,6 @@
         const unlockDast3Button = document.getElementById('unlock-dast3');
         const sellAllButton = document.getElementById('sell-all');
         const moneyDisplay = document.getElementById('money');
-        const leaderboardContainer = document.getElementById('leaderboard-table');
 
         function loadGameData() {
             milkAmount = parseInt(localStorage.getItem('milkAmount')) || 0;
@@ -224,7 +217,6 @@
             localStorage.setItem('money', money);
             localStorage.setItem('dast2Unlocked', dast2Unlocked);
             localStorage.setItem('dast3Unlocked', dast3Unlocked);
-            localStorage.setItem('players', JSON.stringify(players));
         }
 
         function updateDisplay() {
@@ -242,23 +234,12 @@
             }
         }
 
-        function displayLeaderboard() {
-            const sortedPlayers = players.sort((a, b) => b.money - a.money); // Sort by money
-            let leaderboardHtml = '<table><tr><th>Player</th><th>Money</th></tr>';
-            sortedPlayers.forEach(player => {
-                leaderboardHtml += `<tr><td>${player.name}</td><td>${player.money}</td></tr>`;
-            });
-            leaderboardHtml += '</table>';
-            leaderboardContainer.innerHTML = leaderboardHtml;
-        }
-
         // Add event listeners for buttons
         milkButton.addEventListener('click', () => {
             milkAmount += milkValue;
             money += milkValue;
             saveGameData();
             updateDisplay();
-            displayLeaderboard(); // Update leaderboard after money change
         });
 
         eggButton.addEventListener('click', () => {
@@ -266,7 +247,6 @@
             money += eggValue;
             saveGameData();
             updateDisplay();
-            displayLeaderboard(); // Update leaderboard after money change
         });
 
         woolButton.addEventListener('click', () => {
@@ -274,7 +254,6 @@
             money += woolValue;
             saveGameData();
             updateDisplay();
-            displayLeaderboard(); // Update leaderboard after money change
         });
 
         honeyButton.addEventListener('click', () => {
@@ -283,7 +262,6 @@
             localStorage.setItem('lastHoneyTime', Date.now());
             saveGameData();
             updateDisplay();
-            displayLeaderboard(); // Update leaderboard after money change
         });
 
         sellAllButton.addEventListener('click', () => {
@@ -293,7 +271,6 @@
             honeyAmount = 0;
             saveGameData();
             updateDisplay();
-            displayLeaderboard(); // Update leaderboard after sell
         });
 
         unlockDast2Button.addEventListener('click', () => {
@@ -302,7 +279,6 @@
                 money -= 2000000;
                 saveGameData();
                 updateDisplay();
-                displayLeaderboard(); // Update leaderboard after unlocking
             }
         });
 
@@ -312,24 +288,11 @@
                 money -= 6000000;
                 saveGameData();
                 updateDisplay();
-                displayLeaderboard(); // Update leaderboard after unlocking
-            }
-        });
-
-        // Add Player Registration
-        document.getElementById('add-player-button').addEventListener('click', () => {
-            const playerName = document.getElementById('player-name').value.trim();
-            if (playerName) {
-                players.push({ id: Date.now(), name: playerName, money });
-                localStorage.setItem('players', JSON.stringify(players));
-                document.getElementById('player-name').value = ''; // Clear input
-                displayLeaderboard(); // Update leaderboard immediately
             }
         });
 
         // Initial Game Load
         loadGameData();
-        displayLeaderboard(); // Display leaderboard when page loads
     </script>
 </body>
 </html>
