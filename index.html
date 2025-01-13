@@ -8,13 +8,15 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #ffeb3b;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            align-items: flex-start;
+            height: auto;
+            min-height: 100vh;
             flex-direction: column;
-            overflow: hidden; /* Prevent scroll */
+            overflow-y: auto; /* Sayfa kaydırılabilir */
         }
 
         #game-container {
@@ -24,20 +26,14 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px; /* Ensure container doesn't exceed screen size */
-            overflow-y: auto; /* Allow vertical scrolling if content overflows */
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-top: 20px;
         }
 
         h1 {
-            font-size: 18px; /* Smaller title font */
+            font-size: 16px;
             margin-bottom: 10px;
-        }
-
-        #farm {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 20px;
         }
 
         .animal-section {
@@ -45,10 +41,11 @@
             padding: 8px;
             background-color: #f1f1f1;
             border-radius: 8px;
-            width: 45%; /* Adjust width for mobile screens */
+            width: 45%;
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            margin-bottom: 10px;
         }
 
         .animal-section:hover {
@@ -64,12 +61,11 @@
             border: none;
             border-radius: 5px;
             width: 100%;
-            font-size: 14px; /* Adjust button font size */
+            font-size: 14px;
         }
 
         button:hover {
             background-color: #45a049;
-            transform: scale(1.05);
         }
 
         button:disabled {
@@ -78,49 +74,123 @@
         }
 
         p {
-            font-size: 14px; /* Adjust paragraph font size */
+            font-size: 12px;
         }
 
         #market {
             margin-top: 10px;
+        }
+
+        #leaderboard-link {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        #leaderboard-link:hover {
+            background-color: #45a049;
+        }
+
+        #leaderboard-container {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
             text-align: center;
         }
 
-        @media (max-width: 768px) {
-            #game-container {
-                padding: 10px;
-            }
-            .animal-section {
-                width: 48%; /* Adjust width for smaller screens */
-            }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        #leaderboard {
+            display: none;
+        }
+
+        #game-container {
+            display: block;
         }
 
         @media (max-width: 480px) {
             h1 {
-                font-size: 16px; /* Smaller header on very small screens */
-            }
-
-            button {
-                font-size: 12px; /* Smaller button font */
-            }
-
-            p {
-                font-size: 12px; /* Smaller text for better fit */
+                font-size: 14px;
             }
 
             .animal-section {
-                width: 100%; /* Full width for very small screens */
+                width: 100%;
+                margin-bottom: 15px;
             }
-        }
 
-        /* Prevent scrolling in body, only allow scrolling inside the game container */
-        body, html {
-            height: 100%;
-        }
+            button {
+                font-size: 12px;
+            }
 
-        #game-container {
-            max-height: 100%;
-            overflow-y: auto; /* Allow scrolling inside the game container */
+            p {
+                font-size: 10px;
+            }
+
+            #market p {
+                font-size: 12px;
+            }
+
+            #leaderboard-container {
+                padding: 15px;
+            }
+
+            table th, table td {
+                font-size: 12px;
+            }
+
+            a {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -132,195 +202,234 @@
             <div id="cow-section" class="animal-section">
                 <h2>DAST 1</h2>
                 <button id="milk-button">Get Airdrop</button>
-                <p id="milk-amount">Miktar: 0</p>
+                <p id="milk-amount">DAST: 0</p>
             </div>
             <div id="chicken-section" class="animal-section">
                 <h2>DAST 2</h2>
                 <button id="egg-button" disabled>Locked (2M DAST)</button>
-                <p id="egg-amount">Miktar: 0</p>
+                <p id="egg-amount">DAST: 0</p>
                 <button id="unlock-dast2">DAST 2 Open (2M DAST)</button>
             </div>
             <div id="sheep-section" class="animal-section">
                 <h2>DAST 3</h2>
                 <button id="wool-button" disabled>Locked (6M DAST)</button>
-                <p id="wool-amount">Miktar: 0</p>
+                <p id="wool-amount">DAST: 0</p>
                 <button id="unlock-dast3">DAST 3 Open (6M DAST)</button>
             </div>
             <div id="bee-section" class="animal-section">
                 <h2>DAST 4</h2>
                 <button id="honey-button" disabled>Task (Every 3 Hours)</button>
-                <p id="honey-amount">Miktar: 0</p>
+                <p id="honey-amount">DAST: 0</p>
             </div>
         </div>
 
         <div id="market">
             <h2>Your total amount of $DAST</h2>
             <p id="money">DAST: 0</p>
-            <button id="sell-all">Sell ​​All</button>
+            <button id="sell-all">Sell All</button>
         </div>
+
+        <button id="show-leaderboard">Show Leaderboard</button>
+
+        <script>
+            let milkAmount = 0, eggAmount = 0, woolAmount = 0, honeyAmount = 0;
+            let money = 0;
+            let dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true';
+            let dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true';
+
+            const milkValue = 1, eggValue = 2, woolValue = 3, honeyValue = 4;
+            const honeyReward = 5000;
+            const honeyCooldown = 3 * 60 * 60 * 1000;
+
+            const milkButton = document.getElementById('milk-button');
+            const eggButton = document.getElementById('egg-button');
+            const woolButton = document.getElementById('wool-button');
+            const honeyButton = document.getElementById('honey-button');
+            const unlockDast2Button = document.getElementById('unlock-dast2');
+            const unlockDast3Button = document.getElementById('unlock-dast3');
+            const sellAllButton = document.getElementById('sell-all');
+            const moneyDisplay = document.getElementById('money');
+            const showLeaderboardButton = document.getElementById('show-leaderboard');
+            const leaderboardContainer = document.getElementById('leaderboard-container');
+            const gameContainer = document.getElementById('game-container');
+
+            function loadGameData() {
+                milkAmount = parseInt(localStorage.getItem('milkAmount')) || 0;
+                eggAmount = parseInt(localStorage.getItem('eggAmount')) || 0;
+                woolAmount = parseInt(localStorage.getItem('woolAmount')) || 0;
+                honeyAmount = parseInt(localStorage.getItem('honeyAmount')) || 0;
+                money = parseInt(localStorage.getItem('money')) || 0;
+                dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true';
+                dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true';
+
+                const lastHoneyTime = parseInt(localStorage.getItem('lastHoneyTime')) || 0;
+                const currentTime = Date.now();
+                const timeDiff = currentTime - lastHoneyTime;
+
+                if (timeDiff >= honeyCooldown) {
+                    honeyButton.disabled = false;
+                    honeyButton.textContent = 'Complete Mission (10,000 DAST)';
+                } else {
+                    honeyButton.disabled = true;
+                    const remainingTime = honeyCooldown - timeDiff;
+                    honeyButton.textContent = `locked (${Math.ceil(remainingTime / 60000)} dk remained)`;
+                }
+
+                updateDisplay();
+            }
+
+            function saveGameData() {
+                localStorage.setItem('milkAmount', milkAmount);
+                localStorage.setItem('eggAmount', eggAmount);
+                localStorage.setItem('woolAmount', woolAmount);
+                localStorage.setItem('honeyAmount', honeyAmount);
+                localStorage.setItem('money', money);
+                localStorage.setItem('dast2Unlocked', dast2Unlocked);
+                localStorage.setItem('dast3Unlocked', dast3Unlocked);
+            }
+
+            function updateDisplay() {
+                document.getElementById('milk-amount').textContent = `DAST: ${milkAmount}`;
+                document.getElementById('egg-amount').textContent = `DAST: ${eggAmount}`;
+                document.getElementById('wool-amount').textContent = `DAST: ${woolAmount}`;
+                document.getElementById('honey-amount').textContent = `DAST: ${honeyAmount}`;
+                moneyDisplay.textContent = `DAST: ${money}`;
+
+                if (dast2Unlocked) {
+                    eggButton.disabled = false;
+                    eggButton.textContent = 'Airdrop Al';
+                } else {
+                    eggButton.disabled = true;
+                    eggButton.textContent = 'Locked (2M DAST)';
+                }
+
+                if (dast3Unlocked) {
+                    woolButton.disabled = false;
+                    woolButton.textContent = 'Airdrop Al';
+                } else {
+                    woolButton.disabled = true;
+                    woolButton.textContent = 'Locked (6M DAST)';
+                }
+            }
+
+            function unlockDast2() {
+                const unlockCost = 2000000;
+                if (money >= unlockCost && !dast2Unlocked) {
+                    money -= unlockCost;
+                    dast2Unlocked = true;
+                    saveGameData();
+                    updateDisplay();
+                    alert('DAST 2 feature successfully unlocked!');
+                } else if (money < unlockCost) {
+                    alert('You do not have enough DAST savings!');
+                }
+            }
+
+            function unlockDast3() {
+                const unlockCost = 6000000;
+                if (money >= unlockCost && !dast3Unlocked) {
+                    money -= unlockCost;
+                    dast3Unlocked = true;
+                    saveGameData();
+                    updateDisplay();
+                    alert('DAST 3 feature successfully unlocked!');
+                } else if (money < unlockCost) {
+                    alert('You do not have enough DAST savings!');
+                }
+            }
+
+            honeyButton.addEventListener('click', () => {
+                honeyAmount += honeyReward;
+                money += honeyReward;
+                saveGameData();
+
+                const currentTime = Date.now();
+                localStorage.setItem('lastHoneyTime', currentTime);
+
+                honeyButton.disabled = true;
+                const remainingTime = honeyCooldown;
+                honeyButton.textContent = `locked (${Math.ceil(remainingTime / 60000)} dk remained)`;
+
+                updateDisplay();
+            });
+
+            milkButton.addEventListener('click', () => {
+                milkAmount++;
+                saveGameData();
+                updateDisplay();
+            });
+
+            eggButton.addEventListener('click', () => {
+                if (dast2Unlocked) {
+                    eggAmount++;
+                    saveGameData();
+                    updateDisplay();
+                }
+            });
+
+            woolButton.addEventListener('click', () => {
+                if (dast3Unlocked) {
+                    woolAmount++;
+                    saveGameData();
+                    updateDisplay();
+                }
+            });
+
+            sellAllButton.addEventListener('click', () => {
+                money += (milkAmount * milkValue) + (eggAmount * eggValue) + (woolAmount * woolValue) + (honeyAmount * honeyValue);
+                milkAmount = 0;
+                eggAmount = 0;
+                woolAmount = 0;
+                honeyAmount = 0;
+                saveGameData();
+                updateDisplay();
+            });
+
+            unlockDast2Button.addEventListener('click', unlockDast2);
+            unlockDast3Button.addEventListener('click', unlockDast3);
+
+            showLeaderboardButton.addEventListener('click', () => {
+                gameContainer.style.display = 'none';
+                leaderboardContainer.style.display = 'block';
+                loadLeaderboard();
+            });
+
+            function loadLeaderboard() {
+                const players = JSON.parse(localStorage.getItem('players')) || [];
+                players.sort((a, b) => b.dast - a.dast);
+
+                const leaderboardTable = document.createElement('table');
+                const header = document.createElement('thead');
+                header.innerHTML = `
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>DAST</th>
+                    </tr>
+                `;
+                leaderboardTable.appendChild(header);
+
+                const tbody = document.createElement('tbody');
+                players.forEach((player, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${player.name}</td>
+                        <td>${player.dast}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                leaderboardTable.appendChild(tbody);
+                leaderboardContainer.appendChild(leaderboardTable);
+            }
+
+            loadGameData();
+        </script>
     </div>
 
-    <script>
-        let milkAmount = 0, eggAmount = 0, woolAmount = 0, honeyAmount = 0;
-        let money = 0;
-        let dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true'; // DAST 2 kilit durumu
-        let dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true'; // DAST 3 kilit durumu
-
-        const milkValue = 1, eggValue = 2, woolValue = 3, honeyValue = 4;
-        const honeyReward = 5000; // 10,000 DAST per click for DAST 4
-        const honeyCooldown = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
-
-        const milkButton = document.getElementById('milk-button');
-        const eggButton = document.getElementById('egg-button');
-        const woolButton = document.getElementById('wool-button');
-        const honeyButton = document.getElementById('honey-button');
-        const unlockDast2Button = document.getElementById('unlock-dast2');
-        const unlockDast3Button = document.getElementById('unlock-dast3');
-        const sellAllButton = document.getElementById('sell-all');
-        const moneyDisplay = document.getElementById('money');
-
-        function loadGameData() {
-            milkAmount = parseInt(localStorage.getItem('milkAmount')) || 0;
-            eggAmount = parseInt(localStorage.getItem('eggAmount')) || 0;
-            woolAmount = parseInt(localStorage.getItem('woolAmount')) || 0;
-            honeyAmount = parseInt(localStorage.getItem('honeyAmount')) || 0;
-            money = parseInt(localStorage.getItem('money')) || 0;
-            dast2Unlocked = localStorage.getItem('dast2Unlocked') === 'true';
-            dast3Unlocked = localStorage.getItem('dast3Unlocked') === 'true';
-
-            // Load last click time for DAST 4
-            const lastHoneyTime = parseInt(localStorage.getItem('lastHoneyTime')) || 0;
-            const currentTime = Date.now();
-            const timeDiff = currentTime - lastHoneyTime;
-
-            // Enable/disable honey button based on cooldown
-            if (timeDiff >= honeyCooldown) {
-                honeyButton.disabled = false;
-                honeyButton.textContent = 'Complete Mission (10,000 DAST)';
-            } else {
-                honeyButton.disabled = true;
-                const remainingTime = honeyCooldown - timeDiff;
-                honeyButton.textContent = `loked (${Math.ceil(remainingTime / 60000)} dk remained)`;
-            }
-
-            updateDisplay();
-        }
-
-        function saveGameData() {
-            localStorage.setItem('milkAmount', milkAmount);
-            localStorage.setItem('eggAmount', eggAmount);
-            localStorage.setItem('woolAmount', woolAmount);
-            localStorage.setItem('honeyAmount', honeyAmount);
-            localStorage.setItem('money', money);
-            localStorage.setItem('dast2Unlocked', dast2Unlocked);
-            localStorage.setItem('dast3Unlocked', dast3Unlocked);
-        }
-
-        function updateDisplay() {
-            document.getElementById('milk-amount').textContent = `DAST: ${milkAmount}`;
-            document.getElementById('egg-amount').textContent = `DAST: ${eggAmount}`;
-            document.getElementById('wool-amount').textContent = `DAST: ${woolAmount}`;
-            document.getElementById('honey-amount').textContent = `DAST: ${honeyAmount}`;
-            moneyDisplay.textContent = `DAST: ${money}`;
-
-            // DAST 2 kilit durumu
-            if (dast2Unlocked) {
-                eggButton.disabled = false;
-                eggButton.textContent = 'Airdrop Al';
-            } else {
-                eggButton.disabled = true;
-                eggButton.textContent = 'Locked (2M DAST)';
-            }
-
-            // DAST 3 kilit durumu
-            if (dast3Unlocked) {
-                woolButton.disabled = false;
-                woolButton.textContent = 'Airdrop Al';
-            } else {
-                woolButton.disabled = true;
-                woolButton.textContent = 'Locked (6M DAST)';
-            }
-        }
-
-        function unlockDast2() {
-            const unlockCost = 2000000; // 2M DAST
-            if (money >= unlockCost && !dast2Unlocked) {
-                money -= unlockCost;
-                dast2Unlocked = true;
-                saveGameData();
-                updateDisplay();
-                alert('DAST 2 feature successfully unlocked!');
-            } else if (money < unlockCost) {
-                alert('You do not have enough DAST savings!');
-            }
-        }
-
-        function unlockDast3() {
-            const unlockCost = 6000000; // 6M DAST
-            if (money >= unlockCost && !dast3Unlocked) {
-                money -= unlockCost;
-                dast3Unlocked = true;
-                saveGameData();
-                updateDisplay();
-                alert('DAST 3 feature successfully unlocked!');
-            } else if (money < unlockCost) {
-                alert('You do not have enough DAST savings!');
-            }
-        }
-
-        honeyButton.addEventListener('click', () => {
-            honeyAmount += honeyReward;
-            money += honeyReward;
-            saveGameData();
-
-            // Update last click time
-            const currentTime = Date.now();
-            localStorage.setItem('lastHoneyTime', currentTime);
-
-            // Disable the button and start the cooldown
-            honeyButton.disabled = true;
-            const remainingTime = honeyCooldown;
-            honeyButton.textContent = `locked (${Math.ceil(remainingTime / 60000)} dk remained)`;
-
-            updateDisplay();
-        });
-
-        milkButton.addEventListener('click', () => {
-            milkAmount++;
-            saveGameData();
-            updateDisplay();
-        });
-
-        eggButton.addEventListener('click', () => {
-            if (dast2Unlocked) {
-                eggAmount++;
-                saveGameData();
-                updateDisplay();
-            }
-        });
-
-        woolButton.addEventListener('click', () => {
-            if (dast3Unlocked) {
-                woolAmount++;
-                saveGameData();
-                updateDisplay();
-            }
-        });
-
-        sellAllButton.addEventListener('click', () => {
-            money += (milkAmount * milkValue) + (eggAmount * eggValue) + (woolAmount * woolValue) + (honeyAmount * honeyValue);
-            milkAmount = 0;
-            eggAmount = 0;
-            woolAmount = 0;
-            honeyAmount = 0;
-            saveGameData();
-            updateDisplay();
-        });
-
-        unlockDast2Button.addEventListener('click', unlockDast2);
-        unlockDast3Button.addEventListener('click', unlockDast3);
-
-        loadGameData();
-    </script>
+    <div id="leaderboard-container">
+        <a href="#" onclick="window.location.reload();">Back to Game</a>
+    </div>
 </body>
 </html>
