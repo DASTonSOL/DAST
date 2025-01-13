@@ -14,16 +14,18 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
+            overflow: hidden; /* Prevent scroll */
         }
 
         #game-container {
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 500px; /* Adjust max-width to fit mobile screens */
+            width: 100%;
+            max-width: 500px; /* Ensure container doesn't exceed screen size */
+            overflow-y: auto; /* Allow vertical scrolling if content overflows */
         }
 
         h1 {
@@ -109,6 +111,16 @@
             .animal-section {
                 width: 100%; /* Full width for very small screens */
             }
+        }
+
+        /* Prevent scrolling in body, only allow scrolling inside the game container */
+        body, html {
+            height: 100%;
+        }
+
+        #game-container {
+            max-height: 100%;
+            overflow-y: auto; /* Allow scrolling inside the game container */
         }
     </style>
 </head>
