@@ -154,7 +154,7 @@
         </div>
 
         <div id="market">
-            <h2>TYour total amount of $DAST</h2>
+            <h2>Your total amount of $DAST</h2>
             <p id="money">DAST: 0</p>
             <button id="sell-all">Sell ​​All</button>
         </div>
@@ -196,11 +196,11 @@
             // Enable/disable honey button based on cooldown
             if (timeDiff >= honeyCooldown) {
                 honeyButton.disabled = false;
-                honeyButton.textContent = 'Görev Tamamla (10.000 DAST)';
+                honeyButton.textContent = 'Complete Mission (10,000 DAST)';
             } else {
                 honeyButton.disabled = true;
                 const remainingTime = honeyCooldown - timeDiff;
-                honeyButton.textContent = `Kilitli (${Math.ceil(remainingTime / 60000)} dk kalmış)`;
+                honeyButton.textContent = `loked (${Math.ceil(remainingTime / 60000)} dk remained)`;
             }
 
             updateDisplay();
@@ -229,7 +229,7 @@
                 eggButton.textContent = 'Airdrop Al';
             } else {
                 eggButton.disabled = true;
-                eggButton.textContent = 'Kilitli (2M DAST)';
+                eggButton.textContent = 'Locked (2M DAST)';
             }
 
             // DAST 3 kilit durumu
@@ -238,7 +238,7 @@
                 woolButton.textContent = 'Airdrop Al';
             } else {
                 woolButton.disabled = true;
-                woolButton.textContent = 'Kilitli (6M DAST)';
+                woolButton.textContent = 'Locked (6M DAST)';
             }
         }
 
@@ -249,9 +249,9 @@
                 dast2Unlocked = true;
                 saveGameData();
                 updateDisplay();
-                alert('DAST 2 özelliği başarıyla açıldı!');
+                alert('DAST 2 feature successfully unlocked!');
             } else if (money < unlockCost) {
-                alert('Yeterli DAST birikiminiz yok!');
+                alert('You do not have enough DAST savings!');
             }
         }
 
@@ -262,9 +262,9 @@
                 dast3Unlocked = true;
                 saveGameData();
                 updateDisplay();
-                alert('DAST 3 özelliği başarıyla açıldı!');
+                alert('DAST 3 feature successfully unlocked!');
             } else if (money < unlockCost) {
-                alert('Yeterli DAST birikiminiz yok!');
+                alert('You do not have enough DAST savings!');
             }
         }
 
@@ -280,7 +280,7 @@
             // Disable the button and start the cooldown
             honeyButton.disabled = true;
             const remainingTime = honeyCooldown;
-            honeyButton.textContent = `Kilitli (${Math.ceil(remainingTime / 60000)} dk kalmış)`;
+            honeyButton.textContent = `locked (${Math.ceil(remainingTime / 60000)} dk remained)`;
 
             updateDisplay();
         });
