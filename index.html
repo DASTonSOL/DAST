@@ -61,6 +61,7 @@
             border: none;
             border-radius: 5px;
             width: 100%;
+            font-size: 16px;
         }
 
         button:hover {
@@ -90,6 +91,37 @@
             100% {
                 opacity: 1;
                 transform: scale(1);
+            }
+        }
+
+        /* Media Queries for Tablet */
+        @media (max-width: 768px) {
+            .animal-section {
+                width: 45%; /* 2 items per row */
+            }
+            button {
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 480px) {
+            #game-container {
+                padding: 10px;
+            }
+            .animal-section {
+                width: 90%; /* 1 item per row */
+                margin: 5px auto;
+            }
+            button {
+                padding: 12px;
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 18px;
             }
         }
     </style>
@@ -173,7 +205,7 @@
         let milkAmount = 0, eggAmount = 0, woolAmount = 0, honeyAmount = 0;
         let meatAmount = 0, goatMilkAmount = 0, saddleAmount = 0, featherAmount = 0;
         let money = 0;
-        
+
         const milkValue = 5, eggValue = 2, woolValue = 3, honeyValue = 4;
         const meatValue = 7, goatMilkValue = 6, saddleValue = 10, featherValue = 2;
 
@@ -222,7 +254,7 @@
             document.getElementById('meat-amount').textContent = `DAST: ${meatAmount}`;
             document.getElementById('goat-milk-amount').textContent = `DAST: ${goatMilkAmount}`;
             document.getElementById('saddle-amount').textContent = `DAST: ${saddleAmount}`;
-            document.getElementById('feather-amount').textContent = `DAST : ${featherAmount}`;
+            document.getElementById('feather-amount').textContent = `DAST: ${featherAmount}`;
             moneyDisplay.textContent = `Para: ${money}`;
         }
 
@@ -306,7 +338,7 @@
 
         sellAllButton.addEventListener('click', () => {
             money += (milkAmount * 1) + (eggAmount * 2) + (woolAmount * 3) + (honeyAmount * 4) +
-                     (meatAmount *5) + (goatMilkAmount * 6) + (saddleAmount * 10) + (featherAmount * 2);
+                     (meatAmount * 5) + (goatMilkAmount * 6) + (saddleAmount * 10) + (featherAmount * 2);
             milkAmount = 0;
             eggAmount = 0;
             woolAmount = 0;
